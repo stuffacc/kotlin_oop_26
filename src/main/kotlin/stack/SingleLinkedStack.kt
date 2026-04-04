@@ -1,5 +1,7 @@
 package org.example.stack
 
+import org.example.list.SingleLinkedList
+
 
 class SingleLinkedStack : Stack, SingleLinkedList() {
 
