@@ -2,6 +2,25 @@ package org.example.stack
 
 import org.example.list.SingleLinkedList
 
-class SingleLinkedStack : Stack {
-    // TODO: have to inherit from SingleLinkedStack! Add inheritance before implementation!
+class SingleLinkedStack : Stack, SingleLinkedList() {
+
+
+    override fun push(value: Int) {
+        this.addFirst(value)
+    }
+
+    override fun pop(): Int {
+        val value = this[0]
+
+        this.remove(value)
+
+        return value
+    }
+
+    override fun peek(): Int {
+        return this[0]
+    }
+
+    override val isEmpty: Boolean
+        get() = this.size == 0
 }

@@ -1,6 +1,6 @@
 package org.example.list
 
-class SingleLinkedList : CustomList {
+open class SingleLinkedList : CustomList {
 
     private var head: Node? = null
     private var sizeList: Int = 0
@@ -121,25 +121,23 @@ class SingleLinkedList : CustomList {
             var currentNode = head
 
             override fun hasNext(): Boolean {
-                return currentNode != null && currentNode?.next != null
+                return currentNode != null
             }
 
             override fun next(): Int {
-                if (currentNode != null) {
-                    val value: Int = currentNode?.value!!
-                    currentNode = currentNode?.next
-
-                    return value
+                if (!hasNext()) {
+                    throw NoSuchElementException()
                 }
 
-                return ITERATOR_ENDED_VALUE
+                val value = currentNode?.value
+                currentNode = currentNode?.next
+
+                return value!!
             }
         }
     }
 
     companion object {
-        const val ITERATOR_ENDED_VALUE = Int.MIN_VALUE
-
         fun singleLinkedListOf(vararg items: Int) =
             items.fold(SingleLinkedList()) { list, item ->
                 list.also { it.add(item) }
