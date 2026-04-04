@@ -1,7 +1,6 @@
 package org.example.list
 
 open class SingleLinkedList : CustomList {
-
     private var head: Node? = null
     private var sizeList: Int = 0
 
@@ -29,7 +28,7 @@ open class SingleLinkedList : CustomList {
     }
 
     override operator fun set(index: Int, value: Int) {
-        if (index >= sizeList) {
+        if (index >= sizeList || index < 0) {
             throw IndexOutOfBoundsException()
         }
 
@@ -57,7 +56,7 @@ open class SingleLinkedList : CustomList {
     }
 
     override operator fun get(index: Int): Int {
-        if (index >= sizeList) {
+        if (index >= sizeList || index < 0) {
             throw IndexOutOfBoundsException()
         }
 
@@ -100,7 +99,7 @@ open class SingleLinkedList : CustomList {
             if (currentNode.value == element) {
                 sizeList--
                 if (prevNode == null) {
-                    head = null
+                    head = currentNode.next
                     return true
                 }
 

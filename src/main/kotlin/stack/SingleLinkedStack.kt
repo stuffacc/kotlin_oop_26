@@ -10,6 +10,10 @@ class SingleLinkedStack : Stack, SingleLinkedList() {
     }
 
     override fun pop(): Int {
+        if (isEmpty) {
+            throw NoSuchElementException()
+        }
+
         val value = this[0]
 
         this.remove(value)
@@ -18,6 +22,10 @@ class SingleLinkedStack : Stack, SingleLinkedList() {
     }
 
     override fun peek(): Int {
+        if (isEmpty) {
+            throw NoSuchElementException()
+        }
+
         return this[0]
     }
 

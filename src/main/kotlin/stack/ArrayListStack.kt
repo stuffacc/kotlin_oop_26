@@ -3,52 +3,63 @@ package org.example.stack
 import org.example.list.CustomArrayList
 
 class ArrayListStack : Stack {
-    // TODO: use delegation instead of inheritance here, use CustomArrayList
     val customArrayList = CustomArrayList(size = 8)
 
     override fun push(value: Int) {
-        customArrayList.add(value)
+        customArrayList.addFirst(value)
     }
 
     override fun pop(): Int {
-        TODO("Not yet implemented")
+        if (isEmpty) {
+            throw NoSuchElementException()
+        }
+
+        val value = customArrayList[0]
+
+        customArrayList.remove(value)
+
+        return value
     }
 
     override fun peek(): Int {
-        TODO("Not yet implemented")
+        if (isEmpty) {
+            throw NoSuchElementException()
+        }
+
+        return customArrayList[0]
     }
 
     override val isEmpty: Boolean
-        get() = TODO("Not yet implemented")
+        get() = customArrayList.size == 0
 
     override fun get(index: Int): Int {
-        TODO("Not yet implemented")
+        return customArrayList[index]
     }
 
     override fun set(index: Int, value: Int) {
-        TODO("Not yet implemented")
+        customArrayList[index] = value
     }
 
     override fun add(element: Int) {
-        TODO("Not yet implemented")
+        customArrayList.add(element)
     }
 
     override fun addFirst(element: Int) {
-        TODO("Not yet implemented")
+        customArrayList.addFirst(element)
     }
 
     override fun remove(element: Int): Boolean {
-        TODO("Not yet implemented")
+        return customArrayList.remove(element)
     }
 
     override fun indexOf(element: Int): Int {
-        TODO("Not yet implemented")
+        return customArrayList.indexOf(element)
     }
 
     override val size: Int
-        get() = TODO("Not yet implemented")
+        get() = customArrayList.size
 
     override fun iterator(): Iterator<Int> {
-        TODO("Not yet implemented")
+        return customArrayList.iterator()
     }
 }

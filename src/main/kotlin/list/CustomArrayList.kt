@@ -5,10 +5,18 @@ class CustomArrayList(size: Int): CustomList {
     private var lastIndex = 0
 
     override fun get(index: Int): Int {
+        if (index > lastIndex || index < 0) {
+            throw IndexOutOfBoundsException()
+        }
+
         return inner[index]
     }
 
     override fun set(index: Int, value: Int) {
+        if (index > lastIndex || index < 0) {
+            throw IndexOutOfBoundsException()
+        }
+
         inner[index] = value
     }
 
@@ -32,7 +40,10 @@ class CustomArrayList(size: Int): CustomList {
 
     override fun remove(element: Int): Boolean {
         val newArray = IntArray(lastIndex)
+
         var deleted = false
+        var currentIndex = 0
+
         for (i in 0 until lastIndex) {
             val value = inner[i]
 
@@ -41,10 +52,12 @@ class CustomArrayList(size: Int): CustomList {
                 continue
             }
 
-            newArray[i] = value
+            newArray[currentIndex] = value
+            currentIndex++
         }
 
         inner = newArray
+        lastIndex = currentIndex
 
         return deleted
     }
@@ -62,7 +75,7 @@ class CustomArrayList(size: Int): CustomList {
     }
 
     override val size: Int
-        get() = TODO("Not yet implemented")
+        get() = lastIndex
 
     private fun resize(newSize: Int) {
         val newArray = inner.copyOf(newSize = newSize)
@@ -71,7 +84,22 @@ class CustomArrayList(size: Int): CustomList {
     }
 
     override fun iterator(): Iterator<Int> {
-        TODO("Not yet implemented")
+        return object : Iterator<Int> {
+            var currentIndex = 0
+            override fun hasNext(): Boolean {
+                return currentIndex < lastIndex
+            }
+
+            override fun next(): Int {
+                if (hasNext()) {
+                    val value = inner[currentIndex]
+                    currentIndex++
+                    return value
+                }
+
+                throw NoSuchElementException()
+            }
+        }
     }
 
     companion object {

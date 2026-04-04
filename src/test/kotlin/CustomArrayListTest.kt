@@ -31,6 +31,7 @@ class CustomArrayListTest {
 
         assertEquals(1, list[0])
         assertEquals(2, list[1])
+        assertEquals(2, list.size)
     }
 
     @Test
@@ -92,6 +93,15 @@ class CustomArrayListTest {
         list.add(30)
 
         assertEquals(1, list.indexOf(20))
+    }
+
+    @Test
+    fun `indexOf return -1 not found`() {
+        list.add(10)
+        list.add(20)
+        list.add(30)
+
+        assertEquals(-1, list.indexOf(50))
     }
 
     @Test
