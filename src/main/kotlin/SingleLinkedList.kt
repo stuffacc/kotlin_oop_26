@@ -2,20 +2,19 @@ package org.example
 
 class SingleLinkedList : CustomList {
     private var head: Node? = null
-    private var sizeList: Int = 0
+    private var _size: Int = 0
 
-    private class Node(var value: Int = 0,  var next: Node? = null)
+    private class Node(var value: Int,  var next: Node? = null)
 
     override val size: Int
-        get() = this.sizeList
+        get() = _size
 
     override fun add(element: Int) {
-        sizeList++
         val newNode = Node(value = element, next = null)
-
 
         if (head == null) {
             head = newNode
+            _size++
             return
         }
 
@@ -25,54 +24,23 @@ class SingleLinkedList : CustomList {
         }
 
         currentNode?.next = newNode
+        _size++
     }
 
     override operator fun set(index: Int, value: Int) {
-        if (index >= sizeList || index < 0) {
-            throw IndexOutOfBoundsException()
-        }
-
-        var currentIndex = 0
-
-        var currentNode = head
-        while (currentNode != null) {
-            if (currentIndex == index) {
-                currentNode.value = value
-                break
-            }
-
-            currentNode = currentNode.next
-            currentIndex++
-        }
-
-
+        val node = findNodeByIndex(index)
+        node.value = value
     }
 
     override fun addFirst(element: Int) {
-        sizeList++
-
         val newHead = Node(value = element, next = head)
         head = newHead
+        _size++
     }
 
     override operator fun get(index: Int): Int {
-        if (index >= sizeList) {
-            throw IndexOutOfBoundsException()
-        }
-
-        var currentIndex = 0
-
-        var currentNode = head
-        while (currentNode != null) {
-            if (currentIndex == index) {
-                return currentNode.value
-            }
-
-            currentNode = currentNode.next
-            currentIndex++
-        }
-
-        throw IndexOutOfBoundsException()
+        val node = findNodeByIndex(index)
+        return node.value
     }
 
     override fun indexOf(element: Int): Int {
@@ -97,13 +65,15 @@ class SingleLinkedList : CustomList {
 
         while (currentNode != null) {
             if (currentNode.value == element) {
-                sizeList--
                 if (prevNode == null) {
-                    head = null
+                    head = head?.next
+                    _size--
+
                     return true
                 }
 
                 prevNode.next = currentNode.next
+                _size--
 
                 return true
             }
@@ -125,7 +95,7 @@ class SingleLinkedList : CustomList {
 
             override fun next(): Int {
                 if (hasNext()) {
-                    val value: Int = currentNode?.value!!
+                    val value: Int = currentNode!!.value
                     currentNode = currentNode?.next
 
                     return value
@@ -135,6 +105,28 @@ class SingleLinkedList : CustomList {
             }
         }
     }
+
+    private fun findNodeByIndex(index: Int): Node {
+        if (index >= _size || index < 0) {
+            throw IndexOutOfBoundsException()
+        }
+
+        var currentIndex = 0
+
+        var currentNode = head
+        while (currentNode != null) {
+            if (currentIndex == index) {
+                return currentNode
+            }
+
+            currentNode = currentNode.next
+            currentIndex++
+        }
+
+        throw IndexOutOfBoundsException()
+    }
+
+
 
     companion object {
         fun singleLinkedListOf(vararg items: Int) =

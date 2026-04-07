@@ -57,6 +57,19 @@ class SingleLinkedListTest {
     }
 
     @Test
+    fun `remove head and check list`() {
+        list.add(1)
+        list.add(2)
+        list.add(3)
+
+        assertTrue(list.remove(list[0]))
+        assertEquals(2, list.size)
+
+        assertEquals(2, list[0])
+        assertEquals(3, list[1])
+    }
+
+    @Test
     fun `contains works`() {
         list.add(1)
         list.add(2)
@@ -139,7 +152,7 @@ class SingleLinkedListTest {
 
         val iter = list.iterator()
 
-        for (i in 0 until(3)) {
+        for (i in 0 until list.size) {
             assertEquals(list[i], iter.next())
         }
 
