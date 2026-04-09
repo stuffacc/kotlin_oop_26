@@ -28,10 +28,13 @@ class CustomArrayListTest {
     fun `addFirst works correctly`() {
         list.add(2)
         list.addFirst(1)
+        list.addFirst(0)
 
-        assertEquals(1, list[0])
-        assertEquals(2, list[1])
-        assertEquals(2, list.size)
+        assertEquals(0, list[0])
+        assertEquals(1, list[1])
+        assertEquals(2, list[2])
+
+        assertEquals(3, list.size)
     }
 
     @Test

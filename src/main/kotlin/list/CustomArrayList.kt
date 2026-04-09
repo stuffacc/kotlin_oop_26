@@ -5,7 +5,7 @@ class CustomArrayList(size: Int): CustomList {
     private var lastIndex = 0
 
     override fun get(index: Int): Int {
-        if (index > lastIndex || index < 0) {
+        if (index >= lastIndex || index < 0) {
             throw IndexOutOfBoundsException()
         }
 
@@ -13,7 +13,7 @@ class CustomArrayList(size: Int): CustomList {
     }
 
     override fun set(index: Int, value: Int) {
-        if (index > lastIndex || index < 0) {
+        if (index >= lastIndex || index < 0) {
             throw IndexOutOfBoundsException()
         }
 
@@ -22,7 +22,7 @@ class CustomArrayList(size: Int): CustomList {
 
     override fun add(element: Int) {
         if (lastIndex == (inner.size * 3 / 4)) {
-            resize(newSize = inner.size * 2)
+            resize()
         }
 
         inner[lastIndex] = element
@@ -30,11 +30,19 @@ class CustomArrayList(size: Int): CustomList {
     }
 
     override fun addFirst(element: Int) {
-        val intArr = IntArray(1)
-        intArr[0] = element
+        if (lastIndex == (inner.size * 3 / 4)) {
+            resize()
+        }
 
-        val newArr = intArr + inner
-        inner = newArr
+        var prevValue = inner[0]
+        for (i in 1 until lastIndex + 1) {
+            val nextValue = inner[i]
+
+            inner[i] = prevValue
+            prevValue = nextValue
+        }
+
+        inner[0] = element
         lastIndex++
     }
 
@@ -77,7 +85,11 @@ class CustomArrayList(size: Int): CustomList {
     override val size: Int
         get() = lastIndex
 
-    private fun resize(newSize: Int) {
+    private fun resize() {
+        val oldSize = inner.size
+
+        val newSize = if (oldSize == 0) 8 else oldSize * 2
+
         val newArray = inner.copyOf(newSize = newSize)
 
         inner = newArray
@@ -94,6 +106,7 @@ class CustomArrayList(size: Int): CustomList {
                 if (hasNext()) {
                     val value = inner[currentIndex]
                     currentIndex++
+
                     return value
                 }
 
