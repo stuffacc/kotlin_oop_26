@@ -96,7 +96,7 @@ class SingleLinkedList : CustomList {
             override fun next(): Int {
                 if (hasNext()) {
                     val value: Int = currentNode!!.value
-                    currentNode = currentNode?.next
+                    currentNode = currentNode!!.next
 
                     return value
                 }
