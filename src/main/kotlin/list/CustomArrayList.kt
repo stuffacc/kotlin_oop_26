@@ -47,27 +47,19 @@ class CustomArrayList(size: Int): CustomList {
     }
 
     override fun remove(element: Int): Boolean {
-        val newArray = IntArray(lastIndex)
+        val firstIndex = indexOf(element)
 
-        var deleted = false
-        var currentIndex = 0
-
-        for (i in 0 until lastIndex) {
-            val value = inner[i]
-
-            if (value == element && !deleted) {
-                deleted = true
-                continue
-            }
-
-            newArray[currentIndex] = value
-            currentIndex++
+        if (firstIndex == -1) {
+            return false
         }
 
-        inner = newArray
-        lastIndex = currentIndex
+        lastIndex--
 
-        return deleted
+        for (i in firstIndex until lastIndex) {
+            inner[i] = inner[i + 1]
+        }
+
+        return true
     }
 
     override fun indexOf(element: Int): Int {
