@@ -1,5 +1,4 @@
 import org.example.stack.ArrayListStack
-import org.example.stack.Stack
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
