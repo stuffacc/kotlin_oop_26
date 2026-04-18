@@ -31,6 +31,7 @@ class SingleLinkedListTest {
 
         assertEquals(1, list[0])
         assertEquals(2, list[1])
+        assertEquals(2, list.size)
     }
 
     @Test
@@ -53,6 +54,19 @@ class SingleLinkedListTest {
         val removed = list.remove(3)
         assertFalse(removed)
         assertEquals(2, list.size)
+    }
+
+    @Test
+    fun `remove head and check list`() {
+        list.add(1)
+        list.add(2)
+        list.add(3)
+
+        assertTrue(list.remove(list[0]))
+        assertEquals(2, list.size)
+
+        assertEquals(2, list[0])
+        assertEquals(3, list[1])
     }
 
     @Test
@@ -85,14 +99,16 @@ class SingleLinkedListTest {
         }
     }
 
+    @Test
     fun `indexOf works`() {
         list.add(10)
         list.add(20)
         list.add(30)
 
-        assertEquals(2, list.indexOf(20))
+        assertEquals(1, list.indexOf(20))
     }
 
+    @Test
     fun `set works`() {
         list.add(10)
         list.add(20)
@@ -100,5 +116,48 @@ class SingleLinkedListTest {
 
         list[2] = 5
         assertEquals(5, list[2])
+    }
+
+
+    @Test
+    fun `indexOf not found return -1`() {
+        list.add(10)
+        list.add(20)
+        list.add(30)
+
+        assertEquals(-1, list.indexOf(50))
+    }
+
+    @Test
+    fun `set out of bounds`() {
+        list.add(10)
+        list.add(20)
+        list.add(30)
+
+        assertThrows(IndexOutOfBoundsException::class.java) {
+            list[3] = 23
+        }
+
+        assertThrows(IndexOutOfBoundsException::class.java) {
+            list[-1] = 23
+        }
+    }
+
+
+    @Test
+    fun `iterator works correctly`() {
+        list.add(10)
+        list.add(20)
+        list.add(30)
+
+        val iter = list.iterator()
+
+        for (i in 0 until list.size) {
+            assertEquals(list[i], iter.next())
+        }
+
+        assertThrows(NoSuchElementException::class.java) {
+            iter.next()
+        }
     }
 }
