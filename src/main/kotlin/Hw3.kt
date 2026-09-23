@@ -1,17 +1,21 @@
 package org.example
 
-import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 fun divideOrZero(a: Int, b: Int): Int {
-    TODO("IMPLEMENT")
+    try {
+        return a / b
+    }
+    catch (e: ArithmeticException) {
+        return 0
+    }
 }
 
-class Supplier<T> {
+class Supplier<out T> {
 
 }
 
-class Consumer<T> {
+class Consumer<in T> {
 
 }
 
@@ -28,12 +32,22 @@ class DelegateOwner {
     }
     val item3 by lazy2 {
         initCount3++
-        null
+        12
     }
 }
 
-class lazy2 {
-    // implement!
+class lazy2<T>(private val initializer: () -> T) {
+    private var initialized = false
+    var value: T? = null
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+        if (!initialized) {
+            initialized = true
+            value = initializer()
+        }
+
+        return value
+    }
 }
 
 fun main() {
@@ -67,7 +81,7 @@ fun main() {
     }
 
     val res3 = owner.item3
-    if (res3 != null) {
+    if (res3 != 12) {
         error("Not correct res3")
     }
 
